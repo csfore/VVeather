@@ -1,6 +1,8 @@
+module main
+
 import os
 
-fn main() {
+fn init() {
 	home_dir := os.home_dir()
 	if os.exists('$home_dir/.config/vveather/config.json') == false {
 		println("First time setup, generating a config file in $home_dir/.config/vveather/...\n")
@@ -13,9 +15,17 @@ fn main() {
 		println("You can use this link: https://home.openweathermap.org/users/sign_up to sign up for the free version\n")
 		api_key := os.input("Once you do that, input your API Key now (I will not see this, all of this is stored locally): ")
 
-		os.mkdir_all('$home_dir/.config/vveather/')?
-		os.write_file("$home_dir/.config/vvweather/config.json", '{"location": $location, "api_key": $api_key}')
-	} else {
-		println("Exists")
+		os.mkdir_all('$home_dir/.config/vveather/') or {
+			println("Couldn't make the directory")
+			return
+		}
+		os.create('$home_dir/.config/vveather/config.json') or {
+			println("Couldn't make the settings file")
+			return
+		}
+		
+		os.write_file("$home_dir/.config/vveather/config.json", '{"location": $location, "api_key": $api_key}') or {
+			println("Couldn't write to config.json")
+		}
 	}
 }

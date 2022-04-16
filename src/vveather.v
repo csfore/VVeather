@@ -1,53 +1,13 @@
-package main
+module main
 
 import net.http
 import json
 import os
 
-struct Foo {
-	x int
-}
-
-struct WeatherInfo {
-	id int
-	main string
-	description string
-
-}
-
-struct WeatherMain {
-	temp int
-	feels_like int
-	temp_min int
-	temp_max int
-	pressure int
-	humidity int
-
-}
-
-struct WeatherWind {
-	speed int
-	deg int
-}
-
-struct WeatherSys {
-	country string
-	sunrise int
-	sunset int
-}
-
-struct Weather {
-	weather []WeatherInfo
-	main WeatherMain
-	wind WeatherWind
-	visibility int
-	timezone int
-	name string
-	sys WeatherSys
-}
-
 fn main() {
-	req_url := "https://api.openweathermap.org/data/2.5/weather?id=CITY_ID&units=imperial&appid=API_KEY"
+	init()
+
+	req_url := "https://api.openweathermap.org/data/2.5/weather?id=LOCATION&units=imperial&appid=API_KEY"
 	data := http.get_text(req_url)
 
 	weather := json.decode(Weather, data) or {
