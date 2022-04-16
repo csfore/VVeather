@@ -1,3 +1,5 @@
+// Settings file for holding the City ID and API Key
+
 module main
 
 struct Settings {

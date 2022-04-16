@@ -1,4 +1,10 @@
+// This file is named _weather so I don't get confused
+
 module main
+
+
+// These structs are upside-down because they don't work from the main Weather struct, down for some reason
+
 
 struct Foo {
 	x int
