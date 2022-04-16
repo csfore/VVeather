@@ -4,13 +4,27 @@ import net.http
 import json
 import os
 
+ fn f() ?string {
+	home_dir := os.home_dir()
+	file := os.read_file("$home_dir/.config/vveather/config.json")?
+	return file
+ }
+
 fn main() {
 	init()
+	//home_dir := os.home_dir()
+	raw_file := f()?
 
-	req_url := "https://api.openweathermap.org/data/2.5/weather?id=LOCATION&units=imperial&appid=API_KEY"
-	data := http.get_text(req_url)
+	info := json.decode(Settings, raw_file) or {
+		eprintln("Failed to decode json, error 1: $err")
+		return
+	}
+	location_url := info.location
+	api_key_url := info.api_key
+	req_url := "https://api.openweathermap.org/data/2.5/weather?id=$location_url&units=imperial&appid=$api_key_url"
+	raw_http := http.get_text(req_url)
 
-	weather := json.decode(Weather, data) or {
+	weather := json.decode(Weather, raw_http) or {
 		eprintln("Failed to decode json, error: $err")
 		return
 	}
@@ -65,7 +79,7 @@ fn main() {
 		println("Visibility is $visibility meters")
 		println("Current pressure is $pressure hPa")
 	} else if '-r' in os.args || '--raw' in os.args {
-		println(data)
+		println(raw_http)
 	} else {
 		println("Weather info for \e[0;34m$location \e[0m")
 		println("The current temperature is: $temp° F")
