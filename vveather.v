@@ -15,8 +15,19 @@ import os
 // The function used to read the config.json file
 fn f() ?string {
 	home_dir := os.home_dir()
-	file := os.read_file("$home_dir/.config/vveather/config.json")?
-	return file
+	
+	$if linux {
+		println("Your OS is Linux")
+		return os.read_file("$home_dir/.config/vveather/config.json")
+	} $else $if windows {
+		println("Your OS is Windows")
+		config := c() or {
+			return "Error"
+		}
+		return os.read_file("$config\\VVeather\\config.json")
+	} $else {
+		return "Your OS is currently unsupported"
+	}
 }
 
 fn main() {
@@ -73,7 +84,7 @@ fn main() {
 	} else if '-v' in os.args || '--verbose' in os.args {
 		// Verbose Output
 		//    General Weather Info
-		println("Weather info for \e[0;34m$location \e[0m")
+		println("VVeather info for \e[0;34m$location \e[0m")
 		println("The current weather is $description")
 		println("The current temperature is: $temp° F")
 		println("It feels like $feels_like° F")
