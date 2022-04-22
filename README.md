@@ -8,9 +8,13 @@ You can just build this with the normal V compiler, V 0.2.4 b72a2de.
 
 ## Running
 
-*Note this only runs on Linux until I can add the checks for Windows and Darwin*
+### Linux
 
 To run this, you just make the binary executable with `chmod +x` or any other method then run it like `./vveather`
+
+### Windows
+
+You just execute the .exe in a terminal window.
 
 ## Support
 
@@ -20,7 +24,7 @@ If you experience any issues, I'll be happy to take a look at it in [Issues](htt
 
 - [x] Utilize a cli-based app to retreive weather information at the user's will
 
-- [ ] Utilize openweathermap's API to make calls and retreive weather info every minute into a crontab task
+- [x] Utilize openweathermap's API to make calls and retreive weather info every minute into a crontab task
 
 - [ ] Make /dev/weather/* to cat for the weather
 
